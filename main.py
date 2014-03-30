@@ -58,15 +58,13 @@ class MainPage(webapp2.RequestHandler):
 class SignUp(webapp2.RequestHandler):
 
     def post(self):
-        self.response.write('<html><body>You wrote:<pre>')
-        self.response.write(cgi.escape(self.request.get('fName')))
-        self.response.write(' ')
-        self.response.write(cgi.escape(self.request.get('lName')))
-        self.response.write('\n')
-        self.response.write(cgi.escape(self.request.get('number')))
-        self.response.write('\n')
-        self.response.write(cgi.escape(self.request.get('email')))
-        self.response.write('</pre></body></html>')
+
+        firstName = self.request.get('fName')
+        lastName = self.request.get('lName')
+        number = self.request.get('number')
+        email = self.request.get('email')
+
+        #create the user object here; redirect to blue button page; create simple blue button handler
 
 
 app = webapp2.WSGIApplication([
