@@ -67,16 +67,45 @@
         $(function (){
           $("#request-assistance").on("click", function () {
 
+
+            
+            var elem = document.getElementById("request-assistance");
+                  if (elem.value=="Request Assistance") elem.value = "I'm Safe Now";
+                  else elem.value = "Request Assistance";
+              
+
+
             navigator.geolocation.getCurrentPosition(function(position) {
               var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
               map.setCenter(pos);
 
               broadcastLocation(true);
 
+
+
+              var contentString = '<div id="content">'+
+                  '<div id="siteNotice">'+
+                  '</div>'+
+                  '<h1 id="firstHeading" class="firstHeading">user.firstName</h1>'+
+                  '<div id="bodyContent">'+
+                  '<p>user.firstName + ' '+user.lastName+' '+user.phonenum+user.email</p>'
+                  '</div>'+
+                  '</div>';
+
+
+              var infowindow = new google.maps.InfoWindow({
+                content: contentString
+                });    
+
+
               var marker = new google.maps.Marker({
                   position: pos,
                   map: map,
                   title: 'Hello World!'
+              });
+
+              google.maps.event.addListener(marker, 'click', function() {
+              infowindow.open(map,marker);
               });
 
             }, function() {

@@ -74,6 +74,11 @@ class SignUp(webapp2.RequestHandler):
         #create simple blue button handler
         return webapp2.redirect(querybutton) #query parameter?
 
+class Button(webapp2.RequestHandler):
+
+    def get(self):
+      self.response.write(BUTTON_HTML)
+
 class GetLocation(webapp2.RequestHandler):
 
     def post(self):
