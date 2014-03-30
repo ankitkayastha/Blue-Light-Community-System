@@ -33,10 +33,11 @@ MAIN_PAGE_HTML = """\
     <!--if localStorage.get("userid") != null, redirect to Button_HTML-->
     <form action="/sign" method="post">
       
-      <div>first name: <input type="text" name="fName"></div> 
-      <div>last name: <input type="text" name="lName"></div>
-      <div>phone number: <input type="tel" name="number"></div>
-      <div>email: <input type="email" name="email"></div>
+      <div>First Name: <input type="text" name="fName"></div> 
+      <div>Last Name: <input type="text" name="lName"></div>
+      <div>Phone Number: <input type="tel" name="number"></div>
+      <div>Email: <input type="email" name="email"></div>
+      <div>Additional Info: <input type="text" name="Additional Info"></div>
       <div><input type="submit" value="Submit"></div>
 
     </form>
@@ -64,18 +65,31 @@ class SignUp(webapp2.RequestHandler):
         lName = self.request.get('lName')
         phNumber = self.request.get('number')
         Email = self.request.get('email')
+        Message = self.request.get('Additional Info')
 
-        user = models.Responder(firstName = fName, lastName = lName, phoneNum = phNumber, email = Email)
+        user = models.Responder(firstName = fName, lastName = lName, phoneNum = phNumber, email = Email, message = Message)
         user.put()
 
         querybutton = '/static/button.html' + "?code=" + str(user.key)
         #create simple blue button handler
         return webapp2.redirect(querybutton) #query parameter?
 
-class Button(webapp2.RequestHandler):
+class GetLocation(webapp2.RequestHandler):
 
-  def get(self):
-    self.response.write(BUTTON_HTML)
+    def post(self):
+      lon = self.request.get('lon')
+      lat = self.request.get('lat')
+      key = self.request.get('key')
+      trouble = self.request.get('trouble')
+
+      temp = key.get(key)
+      temp.lon = lon
+      temp.lat = lat
+      temp.trouble = trouble
+
+      qry = Responder.query(Responder.key != temp.key)
+
+      return qry
 
 
 

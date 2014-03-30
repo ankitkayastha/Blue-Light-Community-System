@@ -18,7 +18,25 @@
       <script src="/static/purl.js"></script>
 
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
-          <script>
+        <script>
+            function broadcastLocation (assistance) {
+                $.post("/consumer", {
+                  assistance: Boolean(assistance),
+                  lat: position.coords.latitude,
+                  lon: position.coords.longitude,
+                  key: localStorage.getItem("userid");
+                }, function (data) {
+                  $.each(data, function (value) {
+                    // place value on map
+                    var marker = new google.maps.Marker({
+                  position: pos,
+                  map: map,
+                  title: 'Hello World!'
+              });
+                    // value.lat, 
+                  })
+                });
+            }
             function initialize() {
               var myLatlng = new google.maps.LatLng(36.001204,-78.909427);
               var mapOptions = {
@@ -32,6 +50,8 @@
                 var pos = new google.maps.LatLng(position.coords.latitude,
                                                  position.coords.longitude);
                 map.setCenter(pos);
+
+                broadcastLocation(false);
               }, function() {
                 // handleNoGeolocation(true);
               });
@@ -50,6 +70,8 @@
             navigator.geolocation.getCurrentPosition(function(position) {
               var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
               map.setCenter(pos);
+
+              broadcastLocation(true);
 
               var marker = new google.maps.Marker({
                   position: pos,
