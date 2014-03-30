@@ -21,6 +21,8 @@ from google.appengine.api import users
 
 import webapp2
 
+import models
+
 
 MAIN_PAGE_HTML = """\
 <html>
