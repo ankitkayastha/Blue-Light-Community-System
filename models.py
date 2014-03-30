@@ -10,7 +10,7 @@ class Responder(ndb.Model):
   firstName = ndb.StringProperty()
   lastName = ndb.StringProperty()
   phoneNum = ndb.StringProperty()
-  email = ndb.StringProperty
+  email = ndb.StringProperty()
 
   @classmethod
   def query_book(cls, ancestor_key):

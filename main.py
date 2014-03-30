@@ -13,16 +13,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-"""import webapp2
-
-class MainHandler(webapp2.RequestHandler):
-    def get(self):
-        self.response.write('Hello world!')
-
-app = webapp2.WSGIApplication([
-    ('/', MainHandler)
-], debug=True)"""
 
 
 import cgi
@@ -73,12 +63,15 @@ class SignUp(webapp2.RequestHandler):
 
     def post(self):
 
-        firstName = self.request.get('fName')
-        lastName = self.request.get('lName')
-        number = self.request.get('number')
-        email = self.request.get('email')
+        fName = self.request.get('fName')
+        lName = self.request.get('lName')
+        phNumber = self.request.get('number')
+        Email = self.request.get('email')
 
-        #create the user object here; redirect to blue button page; create simple blue button handler
+        user = Responder(firstName = fName, lastName = lName, phoneNum = phNumber, email = Email)
+        user.put()
+
+        #create simple blue button handler
         return redirect('/button') #query parameter?
 
 class Button(webapp2.RequestHandler):
