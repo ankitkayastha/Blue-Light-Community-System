@@ -38,12 +38,26 @@ MAIN_PAGE_HTML = """\
     <form action="/sign" method="post">
       <html><body>name
       <div><textarea name="fName" rows="1" cols="15"></textarea> <textarea name="lName" rows="1" cols="15"></textarea> </div>
+  
       <html><body>phone number 
       <div><textarea name="number" rows="1" cols="30"></textarea></div>
+      
       <html><body>email
       <div><textarea name="email" rows="1" cols="30"></textarea></div>
+      
       <div><input type="submit" value="Submit"></div>
     </form>
+  </body>
+</html>
+"""
+
+BUTTON_HTML = """\
+<html>
+  <body>
+      <div><input type="submit" value="Request Assistance"></div>
+      <script>
+        localStorage.setItem("userid", key)
+      </script>
   </body>
 </html>
 """
@@ -65,10 +79,19 @@ class SignUp(webapp2.RequestHandler):
         email = self.request.get('email')
 
         #create the user object here; redirect to blue button page; create simple blue button handler
+        return redirect('/button') #query parameter?
+
+class Button(webapp2.RequestHandler):
+
+  def get(self):
+    self.response.write(BUTTON_HTML)
+
+
 
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/sign', SignUp),
+    ('/button', Button)
 ], debug=True)
 
