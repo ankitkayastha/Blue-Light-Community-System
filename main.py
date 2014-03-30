@@ -30,16 +30,13 @@ MAIN_PAGE_HTML = """\
 <html>
   <body>
     <form action="/sign" method="post">
-      <html><body>name
-      <div><textarea name="fName" rows="1" cols="15"></textarea> <textarea name="lName" rows="1" cols="15"></textarea> </div>
-  
-      <html><body>phone number 
-      <div><textarea name="number" rows="1" cols="30"></textarea></div>
       
-      <html><body>email
-      <div><textarea name="email" rows="1" cols="30"></textarea></div>
-      
+      <div>first name: <input type="text" name="fName"></div> 
+      <div>last name: <input type="text" name="lName"></div>
+      <div>phone number: <input type="tel" name="number"></div>
+      <div>email: <input type="email" name="email"></div>
       <div><input type="submit" value="Submit"></div>
+
     </form>
   </body>
 </html>
