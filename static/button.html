@@ -19,23 +19,25 @@
 
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
         <script>
-            function broadcastLocation (assistance) {
-                $.post("/consumer", {
-                  assistance: Boolean(assistance),
-                  lat: position.coords.latitude,
-                  lon: position.coords.longitude,
-                  key: localStorage.getItem("userid");
-                }, function (data) {
-                  $.each(data, function (value) {
-                    // place value on map
-                    var marker = new google.maps.Marker({
-                  position: pos,
-                  map: map,
-                  title: 'Hello World!'
-              });
-                    // value.lat, 
-                  })
+            function broadcastLocation (assistance, position) {
+              console.log("POST!", position);
+              $.post("/consumer", {
+                assistance: Boolean(assistance),
+                lat: position.coords.latitude,
+                lon: position.coords.longitude,
+                key: localStorage.getItem("userid")
+              }, function (data) {
+                console.log("POSITIVE RESPONSE", data);
+                $.each(data, function (value) {
+                  // place value on map
+                  var marker = new google.maps.Marker({
+                    position: pos,
+                    map: map,
+                    title: 'Hello World!'
+                  });
+                  // value.lat, 
                 });
+              });
             }
             function initialize() {
               var myLatlng = new google.maps.LatLng(36.001204,-78.909427);
@@ -51,13 +53,15 @@
                                                  position.coords.longitude);
                 map.setCenter(pos);
 
-                broadcastLocation(false);
+                broadcastLocation(false, position);
               }, function() {
                 // handleNoGeolocation(true);
               });
 
 
             }
+
+            initialize()
       </script>
 
       <script type="text/javascript">
@@ -76,16 +80,16 @@
               var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
               map.setCenter(pos);
 
-              broadcastLocation(true);
+              broadcastLocation(true, position);
 
 
 
               var contentString = '<div id="content">'+
                   '<div id="siteNotice">'+
                   '</div>'+
-                  '<h1 id="firstHeading" class="firstHeading">user.firstName</h1>'+
+                  '<h1 id="firstHeading" class="firstHeading">' + user.firstName + '</h1>'+
                   '<div id="bodyContent">'+
-                  '<p>user.firstName + ' '+user.lastName+' '+user.phonenum+user.email</p>'
+                  '<p>' + user.firstName + ' '+user.lastName+' '+user.phonenum + ' ' +user.email + '</p>'+
                   '</div>'+
                   '</div>';
 

@@ -23,7 +23,9 @@ from google.appengine.ext import ndb
 
 import webapp2
 
-import models
+from models import Responder
+
+import json
 
 
 
@@ -67,10 +69,10 @@ class SignUp(webapp2.RequestHandler):
         Email = self.request.get('email')
         Message = self.request.get('Additional Info')
 
-        user = models.Responder(firstName = fName, lastName = lName, phoneNum = phNumber, email = Email, message = Message)
+        user = Responder(firstName = fName, lastName = lName, phoneNum = phNumber, email = Email, message = Message)
         user.put()
 
-        querybutton = '/static/button.html' + "?code=" + str(user.key)
+        querybutton = '/static/button.html' + "?code=" + str(user.key.urlsafe())
         #create simple blue button handler
         return webapp2.redirect(querybutton) #query parameter?
 
@@ -85,17 +87,38 @@ class GetLocation(webapp2.RequestHandler):
       lon = self.request.get('lon')
       lat = self.request.get('lat')
       key = self.request.get('key')
-      trouble = self.request.get('trouble')
+      trouble = bool(self.request.get('assistance'))
 
-      temp = key.get(key)
+      temp_key = ndb.Key(urlsafe=key)
+      temp = temp_key.get();
       temp.lon = lon
       temp.lat = lat
       temp.trouble = trouble
       temp.put()
 
-      qry = Responder.query(Responder.key != temp.key)
+      # qry = ndb.gql("SELECT * FROM Responder")
 
-      return qry
+      responders = Responder.query(Responder.key != temp_key).fetch()
+
+      responders_list = list()
+      for responder in responders:
+        responder_dict = {
+          'firstName' : responder.firstName,
+          'lastName' : responder.lastName,
+          'phoneNum' : responder.phoneNum,
+          'email' : responder.email,
+          'message' : responder.message,
+          'lat' : responder.lat,
+          'lon' : responder.lon,
+          'trouble' : responder.trouble
+        }
+        responders_list.append(responder_dict)
+
+
+
+      # qry = models.Responder.query("NO" != temp.key)
+
+      self.response.write(json.dumps(responders_list))
 
 
 
@@ -104,6 +127,7 @@ class GetLocation(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/sign', SignUp),
-    ('/button', Button)
+    ('/button', Button),
+    ('/consumer', GetLocation)
 ], debug=True)
 
