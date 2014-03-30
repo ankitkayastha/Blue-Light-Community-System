@@ -16,10 +16,7 @@ class Responder(ndb.Model):
   def query_book(cls, ancestor_key):
     return cls.query(ancestor=ancestor_key).order(-cls.date)
 
-class Event(ndb.Model):
-	"""BLUE BUTTON PUSH INFORMATION"""
-	location = GeoPtProperty
-	datetime = DateTimeProperty
+
 	
 
 

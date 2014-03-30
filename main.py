@@ -19,6 +19,8 @@ import cgi
 
 from google.appengine.api import users
 
+from google.appengine.ext import ndb
+
 import webapp2
 
 import models
@@ -55,6 +57,7 @@ BUTTON_HTML = """\
 """
 
 
+
 class MainPage(webapp2.RequestHandler):
 
     def get(self):
@@ -70,11 +73,12 @@ class SignUp(webapp2.RequestHandler):
         phNumber = self.request.get('number')
         Email = self.request.get('email')
 
-        user = Responder(firstName = fName, lastName = lName, phoneNum = phNumber, email = Email)
+        user = models.Responder(firstName = fName, lastName = lName, phoneNum = phNumber, email = Email)
         user.put()
 
+        querybutton = '/button' + "?code=" + str(user.key)
         #create simple blue button handler
-        return redirect('/button') #query parameter?
+        return webapp2.redirect(querybutton) #query parameter?
 
 class Button(webapp2.RequestHandler):
 
