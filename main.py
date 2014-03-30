@@ -45,52 +45,7 @@ MAIN_PAGE_HTML = """\
 """
 
 BUTTON_HTML = """\
-<html>
 
-  <head>
-    <meta name="viewport" content="initial-scale=1, user-scalable=no" />
-    <style type="text/css">
-      html { height: 100% }
-      body { height: 100%; margin: 0; padding: 0 }
-      #map-canvas { height: 70%; width:40%  }
-    </style>
-
-   <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5sVIw--pUeA54Qebj385joo-Xr4J-c5I&sensor=false">
-    </script>
-     <script type="text/javascript">
-      function initialize() {
-        var mapOptions = {
-          center: new google.maps.LatLng(-34.397, 150.644),
-          zoom: 10
-        };
-        var map = new google.maps.Map(document.getElementById("map-canvas"),
-            mapOptions);
-      }
-      google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
-  </head>
-  <body>
-    <div id="map-canvas"/>
-  </body>
-
-  </head>
-
-
-
-
-  <body>
-      <div><input type="submit" value="Request Assistance"></div>
-       <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-      <script src="/static/purl.js"></script>
-
-
-      <script>
-        key = $.url(window.location.href).param('code');
-        localStorage.setItem("userid", key);
-      </script>
-  </body>
-</html>
 """
 
 
@@ -113,7 +68,7 @@ class SignUp(webapp2.RequestHandler):
         user = models.Responder(firstName = fName, lastName = lName, phoneNum = phNumber, email = Email)
         user.put()
 
-        querybutton = '/button' + "?code=" + str(user.key)
+        querybutton = '/static/button.html' + "?code=" + str(user.key)
         #create simple blue button handler
         return webapp2.redirect(querybutton) #query parameter?
 

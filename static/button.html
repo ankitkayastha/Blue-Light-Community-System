@@ -1,0 +1,74 @@
+<html>
+
+  <head>
+    <meta name="viewport" content="initial-scale=1, user-scalable=no" />
+    <style type="text/css">
+      html { height: 100% }
+      body { height: 100%; margin: 10; padding: 0 }
+      #map-canvas { height: 70%; width:100%  }
+    </style>
+  </head>
+
+  <body>
+    
+    <div><center><input id="request-assistance" type="submit" value="Request Assistance"></center></div>
+        <div id="map-canvas"></div>
+
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+      <script src="/static/purl.js"></script>
+
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+          <script>
+            function initialize() {
+              var myLatlng = new google.maps.LatLng(36.001204,-78.909427);
+              var mapOptions = {
+                zoom: 15,
+                center: myLatlng
+              }
+              map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+
+              navigator.geolocation.getCurrentPosition(function(position) {
+                var pos = new google.maps.LatLng(position.coords.latitude,
+                                                 position.coords.longitude);
+                map.setCenter(pos);
+              }, function() {
+                // handleNoGeolocation(true);
+              });
+
+
+            }
+
+            google.maps.event.addDomListener(window, 'load', initialize);
+
+      </script>
+
+      <script type="text/javascript">
+        $(function (){
+          $("#request-assistance").on("click", function () {
+
+            navigator.geolocation.getCurrentPosition(function(position) {
+              var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+              map.setCenter(pos);
+
+              var marker = new google.maps.Marker({
+                  position: pos,
+                  map: map,
+                  title: 'Hello World!'
+              });
+
+            }, function() {
+              // handleNoGeolocation(true);
+            });
+
+          });
+        });
+      </script>
+
+      <script>
+        key = $.url(window.location.href).param('code');
+        localStorage.setItem("userid", key);
+      </script>
+  </body>
+
+</html>
