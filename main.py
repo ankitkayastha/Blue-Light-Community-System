@@ -91,6 +91,7 @@ class GetLocation(webapp2.RequestHandler):
       temp.lon = lon
       temp.lat = lat
       temp.trouble = trouble
+      temp.put()
 
       qry = Responder.query(Responder.key != temp.key)
 
